@@ -4,6 +4,6 @@ Python_Red_List_v4 is a python code for the IUCN Red List API v4 (https://api.iu
 
 An API Key is needed for the code to work, for more information you can check (https://api.iucnredlist.org/).
 
-Code works for Mediterranean and Global assessments for I am in a Mediterranean country. But it is possible to add other regional assessments. As such it is also possible to add other API functions too. In the future I'll also add a write excel function so the returns are imported to an excel file. 
+Code works for Mediterranean and Global assessments for I am in a Mediterranean country. But it is possible to add other regional assessments. As such it is also possible to add other API functions too.
 
 This was a project homework for my class, anyone who likes to use can use and add improvements on it.
