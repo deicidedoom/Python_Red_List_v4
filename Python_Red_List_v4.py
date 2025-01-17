@@ -37,7 +37,6 @@ def get_names(string):
     """
     genus_name = string.split()[0]
     species_name = string.split()[1]
-    print(genus_name, species_name)
     return genus_name, species_name
 
 def get_assessment(response2):
@@ -60,7 +59,7 @@ def get_assessment(response2):
     assessment_id = get_ids(response2)
     response2 = requests.get(f"https://api.iucnredlist.org/api/v4/assessment/{assessment_id}", headers=headers)
     red_list = json.loads(response2.text).get("red_list_category",{}).get("code",{})
-    return print(red_list)
+    return red_list
 
 def get_species(genus_name, species_name):
     """
@@ -70,7 +69,6 @@ def get_species(genus_name, species_name):
     response = requests.get(f"https://api.iucnredlist.org/api/v4/taxa/scientific_name?genus_name={genus_name}&species_name={species_name}", headers=headers)
     assessment = json.loads(response.text)
     if "assessments" not in assessment:
-        print("Not evaluated")
         return
     assess = assessment["assessments"]
     output = [x for x in assess if x["latest"]==True] #arranges output file so that only latest assessments are taken into account
@@ -82,8 +80,11 @@ headers = {
     "accept": "application/json",
     "Authorization": api_key,
 }
-
+data_frame = []
 df = pd.read_excel(input("Enter file path: "))
 for index, i in df.iterrows():
     genus_name, species_name = get_names(i["Species"])
-    get_species(genus_name, species_name)
+    red_list_assessment = get_species(genus_name, species_name)
+    data_frame.append([genus_name, species_name, red_list_assessment])
+df2 = pd.DataFrame(data_frame, columns=["Genus","Species","Red List Assessment"])
+df2.to_excel(input("Enter output file path: "))
